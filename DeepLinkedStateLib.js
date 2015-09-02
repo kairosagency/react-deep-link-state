@@ -1,6 +1,10 @@
 'use strict';
 
-var _ = require('lodash');
+require('object.assign').shim();
+var all = require('lodash.all');
+var isObject = require('lodash.isobject');
+var forEach = require('lodash.each');
+var pick = require('lodash.pick');
 
 var DeepLinkedStateLib = {
     getValueFromState: function(statePath, options) {
@@ -12,8 +16,8 @@ var DeepLinkedStateLib = {
         
         var value = valueObject;
         
-        var havePath = _.all(statePath, function(statePathPart) {
-            if (!_.isObject(value) || !value.hasOwnProperty(statePathPart)) {
+        var havePath = all(statePath, function(statePathPart) {
+            if (isObject(value) || !value.hasOwnProperty(statePathPart)) {
                 return false;
             }
             
@@ -47,11 +51,11 @@ var DeepLinkedStateLib = {
         var statePathDepth = [].concat(statePath);
         var statePathLast = statePathDepth.pop();
         
-        var partialState = _.pick(valueObject, statePathDepth[0]);
+        var partialState = pick(valueObject, statePathDepth[0]);
         var stateSub = partialState;
-        
-        _.each(statePathDepth, function(statePathPart) {
-            stateSub[statePathPart] = _.extend({}, stateSub[statePathPart]);
+
+        forEach(statePathDepth, function(statePathPart) {
+            stateSub[statePathPart] = Object.assign({}, stateSub[statePathPart]);
             
             stateSub = stateSub[statePathPart];
         });
