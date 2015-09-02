@@ -1,9 +1,9 @@
 'use strict';
 
 require('object.assign').shim();
-var all = require('lodash.all');
+var all = require('lodash.every');
 var isObject = require('lodash.isobject');
-var forEach = require('lodash.each');
+var forEach = require('lodash.foreach');
 var pick = require('lodash.pick');
 
 var DeepLinkedStateLib = {
